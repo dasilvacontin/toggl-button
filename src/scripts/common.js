@@ -59,6 +59,12 @@ function entryStartedByButton(entry, button) {
   return entry && entry.description.indexOf(button.currentDescription) > -1;
 }
 
+function setCursorAtBeginning(elem) {
+  elem.focus();
+  elem.setSelectionRange(0, 0);
+  elem.scrollLeft = 0;
+}
+
 var togglbutton = {
   isStarted: false,
   element: null,
@@ -184,7 +190,8 @@ var togglbutton = {
 
     if (editForm !== null) {
       togglbutton.fetchTasks(pid, editForm);
-      $("#toggl-button-description").value = response.entry.description;
+      var togglButtonDescription = $("#toggl-button-description");
+      togglButtonDescription.value = response.entry.description;
       $("#toggl-button-project").value = pid;
       projectSelect = document.getElementById("toggl-button-project");
       placeholder = $("#toggl-button-project-placeholder > div");
@@ -195,6 +202,7 @@ var togglbutton = {
       editForm.style.left = position.left + "px";
       editForm.style.top = position.top + "px";
       editForm.style.display = "block";
+      setCursorAtBeginning(togglButtonDescription);
       return;
     }
 
@@ -263,7 +271,9 @@ var togglbutton = {
       togglbutton.tagsVisible = !togglbutton.tagsVisible;
     };
 
-    $("#toggl-button-description", editForm).value = response.entry.description;
+    var togglButtonDescription = $("#toggl-button-description", editForm);
+    togglButtonDescription.value = response.entry.description;
+    setCursorAtBeginning(togglButtonDescription);
     $("#toggl-button-project", editForm).value = pid;
     projectSelect = $("#toggl-button-project", editForm);
     placeholder = $("#toggl-button-project-placeholder > div", editForm);
